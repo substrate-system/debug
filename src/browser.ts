@@ -110,7 +110,7 @@ if (
      * Create a debugger with the given `namespace`, only
      * if we are in DEV mode.
      *
-     * @param {string?} namespace
+     * @param {string} [namespace]
      * @return {Function}
      */
     createDebug = function createDebug (namespace?:string) {
@@ -145,6 +145,8 @@ export default createDebug
  * Check if the given namespace is enabled.
  */
 function isEnabled (namespace?:string):boolean {
+    if (import.meta.env.VITE_DEBUG === '*') return true
+
     // if no namespace, check if we are in dev mode
     if (!namespace) {
         const ok = createDebug.shouldLog!(import.meta.env.VITE_DEBUG_MODE)
