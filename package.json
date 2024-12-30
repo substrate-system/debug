@@ -7,6 +7,15 @@
   "files": [
     "./dist/*"
   ],
+  "exports": {
+    ".": {
+      "node": "./dist/node.js",
+      "browser": "./dist/browser.js",
+      "default": "./dist/browser.js"
+    },
+    "./node": "./dist/node.js",
+    "./browser": "./dist/browser.js"
+  },
   "scripts": {
     "lint": "eslint \"./**/*.{ts,js}\"",
     "build-tests": "esbuild test/index.ts --platform=node --bundle --format=esm --keep-names > test/index.js",
@@ -42,15 +51,6 @@
     "typedoc": "^0.27.0",
     "typescript": "^5.4.5",
     "vite": "^6.0.0"
-  },
-  "exports": {
-    ".": {
-      "node": "./dist/node.js",
-      "browser": "./dist/browser.js",
-      "default": "./dist/browser.js"
-    },
-    "./node": "./dist/node.js",
-    "./browser": "./dist/browser.js"
   },
   "author": "nichoth <nichoth@gmail.com> (https://nichoth.com)",
   "license": "MIT",

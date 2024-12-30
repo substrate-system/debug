@@ -1,6 +1,8 @@
 import Debug from '../src/browser.js'
 Debug.shouldLog = (env) => env === 'testing' || env === 'staging'
 
+console.log('import meta env', import.meta.env)
+
 const debug = Debug('fooo')
 
 debug('debug works')
