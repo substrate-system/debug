@@ -14,7 +14,7 @@
       "default": "./dist/browser/index.js"
     },
     "./node": "./dist/node.js",
-    "./browser": "./dist/browser.js"
+    "./browser": "./dist/browser/index.js"
   },
   "scripts": {
     "lint": "eslint \"./**/*.{ts,js}\"",
