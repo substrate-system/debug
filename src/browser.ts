@@ -158,7 +158,9 @@ function isEnabled (namespace?:string):boolean {
     // else, we do have a namespace
     if (createDebug.shouldLog!(import.meta.env.VITE_DEBUG_MODE)) {
         // are we in dev mode? then check the namespace
-        const envVars = createRegexFromEnvVar(import.meta.env?.VITE_DEBUG)
+        const names = import.meta.env?.VITE_DEBUG
+        if (!names) return false
+        const envVars = createRegexFromEnvVar(names)
         return envVars.some(regex => regex.test(namespace))
     }
 
