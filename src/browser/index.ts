@@ -1,117 +1,29 @@
+import humanize from 'ms'
 import {
     generateRandomString,
     coerce,
     selectColor,
     createRegexFromEnvVar
-} from './common.js'
-import humanize from 'ms'
-
-const colors = [
-    '#0000CC',
-    '#0000FF',
-    '#0033CC',
-    '#0033FF',
-    '#0066CC',
-    '#0066FF',
-    '#0099CC',
-    '#0099FF',
-    '#00CC00',
-    '#00CC33',
-    '#00CC66',
-    '#00CC99',
-    '#00CCCC',
-    '#00CCFF',
-    '#3300CC',
-    '#3300FF',
-    '#3333CC',
-    '#3333FF',
-    '#3366CC',
-    '#3366FF',
-    '#3399CC',
-    '#3399FF',
-    '#33CC00',
-    '#33CC33',
-    '#33CC66',
-    '#33CC99',
-    '#33CCCC',
-    '#33CCFF',
-    '#6600CC',
-    '#6600FF',
-    '#6633CC',
-    '#6633FF',
-    '#66CC00',
-    '#66CC33',
-    '#9900CC',
-    '#9900FF',
-    '#9933CC',
-    '#9933FF',
-    '#99CC00',
-    '#99CC33',
-    '#CC0000',
-    '#CC0033',
-    '#CC0066',
-    '#CC0099',
-    '#CC00CC',
-    '#CC00FF',
-    '#CC3300',
-    '#CC3333',
-    '#CC3366',
-    '#CC3399',
-    '#CC33CC',
-    '#CC33FF',
-    '#CC6600',
-    '#CC6633',
-    '#CC9900',
-    '#CC9933',
-    '#CCCC00',
-    '#CCCC33',
-    '#FF0000',
-    '#FF0033',
-    '#FF0066',
-    '#FF0099',
-    '#FF00CC',
-    '#FF00FF',
-    '#FF3300',
-    '#FF3333',
-    '#FF3366',
-    '#FF3399',
-    '#FF33CC',
-    '#FF33FF',
-    '#FF6600',
-    '#FF6633',
-    '#FF9900',
-    '#FF9933',
-    '#FFCC00',
-    '#FFCC33'
-]
+} from '../common.js'
+import { colors } from './util.js'
 
 const log = console.log || (() => {})
 
 interface CreateDebugger {
     (env?:string):(...args:any[])=>void;
-    shouldLog?:(env:string)=>boolean;
 }
 
 let randomNamespace:string = ''
 let createDebug:CreateDebugger = (_?:string) => (..._args:any[]) => {}
 
-const modeVar = import.meta?.env?.VITE_DEBUG_MODE || ''
-let modes:string[] = []
-if (modeVar) {
-    modes = (modeVar.split(',')).map(mode => mode.trim())
-}
-
 if (
     import.meta?.env?.DEV ||
     import.meta?.env?.VITE_DEBUG ||
-    (modes.length && modes.includes(import.meta.env.MODE))
+    !import.meta?.env?.PROD
 ) {
     /**
-     * Create a debugger with the given `namespace`, only
-     * if we are in DEV mode.
-     *
      * @param {string} [namespace]
-     * @return {Function}
+     * @return {(...args:any[])=>void}
      */
     createDebug = function createDebug (namespace?:string) {
         const prevTime = Number(new Date())
@@ -121,20 +33,10 @@ if (
         const color = selectColor(namespace || randomNamespace, colors)
 
         const debug:(...args:any[])=>void = function (...args:any[]) {
-            if (isEnabled(namespace)) {
-                return logger(namespace || 'DEV', args, { prevTime, color })
-            }
+            return logger(namespace || 'DEV', args, { prevTime, color })
         }
 
         return debug
-    }
-
-    createDebug.shouldLog = function (envString?:string):boolean {
-        if (!envString) {
-            return import.meta.env.DEV
-        } else {
-            return (envString === 'development' || envString === 'test')
-        }
     }
 }
 
@@ -143,28 +45,28 @@ export default createDebug
 
 /**
  * Check if the given namespace is enabled.
+ * `namespace` is the name that is passed into debug.
+ * Need to check it against the env var.
  */
-function isEnabled (namespace?:string):boolean {
+function isEnabled (namespace:string):boolean {
     if (import.meta.env.VITE_DEBUG === '*') return true
 
-    // if no namespace, check if we are in dev mode
-    if (!namespace) {
-        const ok = createDebug.shouldLog!(import.meta.env.VITE_DEBUG_MODE)
-        // check if we were passed a `vite_debug` variable
-        if (ok && !import.meta.env.VITE_DEBUG) return true
-        return false
+    if (namespace === 'DEV') {  // if we were not called with a namespace
+        if (!import.meta.env.VITE_DEBUG) {  // if no debug env var
+            // then log if DEV mode is true
+            return import.meta.env.DEV
+        }
     }
 
-    // else, we do have a namespace
-    if (createDebug.shouldLog!(import.meta.env.VITE_DEBUG_MODE)) {
-        // are we in dev mode? then check the namespace
-        const names = import.meta.env?.VITE_DEBUG
-        if (!names) return true
-        const envVars = createRegexFromEnvVar(names)
-        return envVars.some(regex => regex.test(namespace))
+    // else, we were called with a namespace
+    // check the namespace
+    if (!import.meta.env.VITE_DEBUG) {
+        // called with a namespace, but no env var
+        return import.meta.env.DEV
     }
 
-    return false
+    const envVars = createRegexFromEnvVar(namespace)
+    return envVars.some(regex => regex.test(import.meta.env.VITE_DEBUG))
 }
 
 /**
@@ -183,6 +85,8 @@ function createFormatters () {
 }
 
 function logger (namespace:string, args:any[], { prevTime, color }) {
+    if (!isEnabled(namespace)) return
+
     // Set `diff` timestamp
     const curr = Number(new Date())
     const diff = curr - (prevTime || curr)

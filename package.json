@@ -10,8 +10,8 @@
   "exports": {
     ".": {
       "node": "./dist/node.js",
-      "browser": "./dist/browser.js",
-      "default": "./dist/browser.js"
+      "browser": "./dist/browser/index.js",
+      "default": "./dist/browser/index.js"
     },
     "./node": "./dist/node.js",
     "./browser": "./dist/browser.js"
@@ -24,9 +24,11 @@
     "build-browser-tests": "esbuild test/index.ts --platform=node --target=es2020 --bundle --keep-names > test/test-bundle.js",
     "test-tape-run": "npm run build-browser-tests && cat test/index.html | tape-run --input=html --static=test | tap-spec",
     "build": "mkdir -p dist && rm -rf dist/* && tsc --project tsconfig.build.json",
+    "build-example": "vite build",
+    "build-example:dev": "VITE_DEBUG=\"*\" vite build --mode=\"development\"",
     "build-docs": "typedoc ./src/browser.ts ./src/node.ts",
     "toc": "markdown-toc --maxdepth 3 -i README.md",
-    "start": "VITE_DEBUG_MODE=staging vite --mode=staging",
+    "start": "vite --mode=staging",
     "preversion": "npm run lint",
     "version": "npm run toc && git add README.md",
     "postversion": "git push --follow-tags && npm publish",
