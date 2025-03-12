@@ -49,24 +49,24 @@ export default createDebug
  * Need to check it against the env var.
  */
 function isEnabled (namespace:string):boolean {
-    if (import.meta.env.VITE_DEBUG === '*') return true
+    if (import.meta?.env?.VITE_DEBUG === '*') return true
 
     if (namespace === 'DEV') {  // if we were not called with a namespace
-        if (!import.meta.env.VITE_DEBUG) {  // if no debug env var
+        if (!import.meta?.env?.VITE_DEBUG) {  // if no debug env var
             // then log if DEV mode is true
-            return import.meta.env.DEV
+            return import.meta?.env?.DEV
         }
     }
 
     // else, we were called with a namespace
     // check the namespace
-    if (!import.meta.env.VITE_DEBUG) {
+    if (!import.meta?.env?.VITE_DEBUG) {
         // called with a namespace, but no env var
-        return import.meta.env.DEV
+        return import.meta?.env?.DEV
     }
 
     const envVars = createRegexFromEnvVar(namespace)
-    return envVars.some(regex => regex.test(import.meta.env.VITE_DEBUG))
+    return envVars.some(regex => regex.test(import.meta?.env?.VITE_DEBUG))
 }
 
 /**
