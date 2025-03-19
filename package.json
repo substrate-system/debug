@@ -55,7 +55,7 @@
     "vite": "^6.0.0"
   },
   "author": "nichoth <nichoth@gmail.com> (https://nichoth.com)",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "directories": {
     "example": "example",
     "test": "test"
