@@ -27,6 +27,7 @@
     "example",
     "src/**/*",
     "test/*.ts",
-    "lib.es5.d.ts"
+    "lib.es5.d.ts",
+    "env/d/ts"
   ]
 }

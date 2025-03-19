@@ -48,23 +48,23 @@ export default createDebug
  * `namespace` is the name that is passed into debug.
  * Need to check it against the env var.
  */
-function isEnabled (namespace:string):boolean {
-    if (import.meta?.env?.VITE_DEBUG === '*') return true
+function isEnabled (namespace:string, env?:ImportMetaEnv):boolean {
+    if (env && env.VITE_DEBUG === '*') return true
 
     // if we were not called with a namespace
     if (namespace === 'DEV') {
-        if (!import.meta?.env?.VITE_DEBUG) {  // if no debug env var
-            // then log if DEV mode is true
-            return !!(import.meta.env.DEV)
+        // we want to log iff we were not passed a VITE_DEBUG variable
+        // pass in VITE_DEBUG="*" to log everything
+        if (!env || !env.VITE_DEBUG) {
+            return true
         }
+
+        return false
     }
 
-    if (!import.meta.env.VITE_DEBUG) {
-        return !!(import.meta.env.DEV)
-    }
-
+    if (!env || !env.VITE_DEBUG) return false
     const envVars = createRegexFromEnvVar(namespace)
-    return envVars.some(regex => regex.test(import.meta?.env?.VITE_DEBUG))
+    return envVars.some(regex => regex.test(env.VITE_DEBUG))
 }
 
 /**
@@ -83,7 +83,7 @@ function createFormatters () {
 }
 
 function logger (namespace:string, args:any[], { prevTime, color }) {
-    if (!isEnabled(namespace)) return
+    if (!isEnabled(namespace, import.meta.env)) return
 
     // Set `diff` timestamp
     const curr = Number(new Date())
