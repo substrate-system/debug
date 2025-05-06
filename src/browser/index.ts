@@ -17,9 +17,9 @@ let randomNamespace:string = ''
 let createDebug:CreateDebugger = (_?:string) => (..._args:any[]) => {}
 
 if (
-    import.meta?.env?.DEV ||
-    import.meta?.env?.VITE_DEBUG ||
-    !import.meta?.env?.PROD
+    (import.meta.env && import.meta.env.DEV) ||
+    (import.meta.env && import.meta?.env?.VITE_DEBUG) ||
+    (import.meta.env && !import.meta?.env?.PROD)
 ) {
     /**
      * @param {string} [namespace]
