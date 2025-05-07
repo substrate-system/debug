@@ -21,7 +21,7 @@ function isEnabled (
     namespace:string,
     env?:ImportMetaEnv|Record<string, string>
 ):boolean {
-    if (env && (env.VITE_DEBUG || env.DEBUG === '*')) return true
+    if (env && (env.VITE_DEBUG === '*' || env.DEBUG === '*')) return true
 
     // if we were not called with a namespace
     if (namespace === 'DEV') {

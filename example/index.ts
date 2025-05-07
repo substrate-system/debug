@@ -22,7 +22,7 @@ const debug4 = Debug('bazzz')
 debug4('bazzzzzzz')  // should not log
 
 const debug5 = Debug()
-debug5('debug 5 should be the same color as debug 2')
+debug5("debug 5 should be a different color, because it's a different instance.")
 
 // testing the * variable
 const debug7 = Debug('quxxx')
