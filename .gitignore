@@ -5,3 +5,4 @@ test/*.js
 dist
 public
 docs
+example/static/bundle.js
