@@ -60,7 +60,7 @@ function logger (
     { prevTime, color },
     env?:Record<string, string>
 ) {
-    if (!isEnabled(namespace, (env || import.meta.env))) return
+    if (!isEnabled(namespace, env)) return
 
     // Set `diff` timestamp
     const curr = Number(new Date())
