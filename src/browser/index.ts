@@ -60,6 +60,7 @@ function logger (
     { prevTime, color },
     env?:Record<string, string>
 ) {
+    args = args || []
     if (!isEnabled(namespace, env)) return
 
     // Set `diff` timestamp

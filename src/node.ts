@@ -230,7 +230,9 @@ function formatArgs ({ diff, color, namespace, useColors }:{
     color:number,
     namespace:string,
     useColors:boolean
-}, args:string[]):typeof args {
+}, args:string[]):string[] {
+    args = args || []
+
     if (useColors) {
         const c = color
         const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c)
