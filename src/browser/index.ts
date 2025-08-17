@@ -21,22 +21,27 @@ function isEnabled (
     namespace:string,
     env?:ImportMetaEnv|Record<string, string>
 ):boolean {
-    if (env && (env.VITE_DEBUG === '*' || env.DEBUG === '*')) return true
+    const DEBUG = localStorage.getItem('DEBUG')
+    if (
+        (env && (env.VITE_DEBUG === '*' || env.DEBUG === '*')) ||
+        DEBUG === '*'
+    ) return true
 
     // if we were not called with a namespace
     if (namespace === 'DEV') {
-        // We want to log iff we were not passed a VITE_DEBUG variable.
-        // Pass in VITE_DEBUG="*" to log everything
-        if (!env || (!env.VITE_DEBUG && !env.DEBUG)) {
+        // We want to log iff there is no DEBUG variable.
+        if (!env || (!env.VITE_DEBUG && !DEBUG)) {
             return true
         }
 
         return false
     }
 
-    if (!env || (!env.VITE_DEBUG && !env.DEBUG)) return false
+    env = env || {}
+
+    if (!DEBUG && (!env || (!env.VITE_DEBUG && !env.DEBUG))) return false
     const envVars = createRegexFromEnvVar(namespace)
-    return envVars.some(regex => regex.test(env.VITE_DEBUG || env.DEBUG))
+    return envVars.some(regex => regex.test(env.VITE_DEBUG || env.DEBUG || DEBUG))
 }
 
 /**

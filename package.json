@@ -18,9 +18,10 @@
   },
   "scripts": {
     "lint": "eslint \"./**/*.{ts,js}\"",
+    "test-browser": "esbuild ./test/test-browser.ts --target=es2020 --bundle | npx tapout",
     "build-tests": "esbuild test/index.ts --platform=node --bundle --format=esm --keep-names > test/index.js",
     "test-node": "esbuild ./example/node.js --platform=node --bundle --format=esm --keep-names | node --input-type=module",
-    "test": "npm run lint && npm run build && esbuild test/index.ts --target=es2020 --bundle --platform=node --format=esm | DEBUG=test NODE_ENV=development node --input-type=module",
+    "test": "npm run build && esbuild test/index.ts --target=es2020 --bundle --platform=node --format=esm | DEBUG=test NODE_ENV=development node --input-type=module",
     "build-browser-tests": "esbuild test/index.ts --platform=node --target=es2020 --bundle --keep-names > test/test-bundle.js",
     "test-tape-run": "npm run build-browser-tests && cat test/index.html | tape-run --input=html --static=test | tap-spec",
     "build": "mkdir -p dist && rm -rf dist/* && tsc --project tsconfig.build.json",
@@ -29,6 +30,7 @@
     "build-docs": "typedoc ./src/browser.ts ./src/node.ts",
     "toc": "markdown-toc --maxdepth 3 -i README.md",
     "start": "vite --mode=staging",
+    "start:ls": "vite --config vite-ls.config.js example-ls",
     "start:star": "VITE_DEBUG=\"*\" vite",
     "start:vite-production": "NODE_EN\"production\" vite",
     "start:bar-production": "NODE_ENV=\"production\" VITE_DEBUG=\"barrr\" vite",
@@ -46,8 +48,9 @@
     "supports-color": "^10.0.0"
   },
   "devDependencies": {
-    "@bicycle-codes/tapzero": "^0.10.0",
-    "@types/node": "^24.0.0",
+    "@substrate-system/tapzero": "^0.10.15",
+    "@substrate-system/tapout": "^0.0.16",
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "auto-changelog": "^2.4.0",
