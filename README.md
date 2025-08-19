@@ -4,6 +4,7 @@
 [![types](https://img.shields.io/npm/types/@substrate-system/debug?style=flat-square)](README.md)
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![install size](https://flat.badgen.net/packagephobia/install/@substrate-system/debug)](https://packagephobia.com/result?p=@substrate-system/debug)
+[![GZip size](https://flat.badgen.net/bundlephobia/minzip/@substrate-system/web-component)](https://bundlephobia.com/package/@substrate-system/web-component)
 [![license](https://img.shields.io/badge/license-Big_Time-blue?style=flat-square)](LICENSE)
 
 
