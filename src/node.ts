@@ -1,6 +1,6 @@
 import '@substrate-system/util/node/self'
 import supportsColor from 'supports-color'
-import ms from 'ms'
+import ms from './ms.js'
 import tty from 'tty'
 import util from 'util'
 import { generateRandomString, coerce, createRegexFromEnvVar } from './common.js'

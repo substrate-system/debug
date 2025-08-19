@@ -15,33 +15,32 @@ export default createDebug
 /**
  * Check if the given namespace is enabled.
  * `namespace` is the name that is passed into debug.
- * Need to check it against the env var.
+ * `forcedEnabled` is a boolean that forces logging when true.
+ * Only checks localStorage for the DEBUG key, unless forced.
  */
-function isEnabled (
-    namespace:string,
-    env?:ImportMetaEnv|Record<string, string>
-):boolean {
+function isEnabled (namespace:string, forcedEnabled?:boolean):boolean {
+    // If explicitly forced to be enabled via boolean true
+    if (forcedEnabled === true) return true
+
     const DEBUG = localStorage.getItem('DEBUG')
-    if (
-        (env && (env.VITE_DEBUG === '*' || env.DEBUG === '*')) ||
-        DEBUG === '*'
-    ) return true
+
+    // Check for wildcard
+    if (DEBUG === '*') return true
 
     // if we were not called with a namespace
     if (namespace === 'DEV') {
         // We want to log iff there is no DEBUG variable.
-        if (!env || (!env.VITE_DEBUG && !DEBUG)) {
+        if (!DEBUG) {
             return true
         }
-
         return false
     }
 
-    env = env || {}
+    // No DEBUG variable set
+    if (!DEBUG) return false
 
-    if (!DEBUG && (!env || (!env.VITE_DEBUG && !env.DEBUG))) return false
-    const envVars = createRegexFromEnvVar(namespace)
-    return envVars.some(regex => regex.test(env.VITE_DEBUG || env.DEBUG || DEBUG))
+    const envVars = createRegexFromEnvVar(DEBUG)
+    return envVars.some(regex => regex.test(namespace))
 }
 
 /**
@@ -63,10 +62,10 @@ function logger (
     namespace:string,
     args:any[],
     { prevTime, color },
-    env?:Record<string, string>
+    forcedEnabled?:boolean
 ) {
     args = args || []
-    if (!isEnabled(namespace, env)) return
+    if (!isEnabled(namespace, forcedEnabled)) return
 
     // Set `diff` timestamp
     const curr = Number(new Date())
@@ -153,7 +152,7 @@ function formatArgs ({ diff, color, namespace, useColors }:{
         (useColors ? ' %c' : ' ') +
         args[0] +
         (useColors ? '%c ' : ' ') +
-        '+' + humanize(diff)
+        '+' + humanize(diff, {})
 
     if (!useColors) return
 
@@ -182,7 +181,7 @@ function formatArgs ({ diff, color, namespace, useColors }:{
     return args
 }
 
-function createDebug (namespace?:string|boolean, env?:Record<string, string>) {
+function createDebug (namespace?:string|boolean) {
     if (namespace === false) return noop
     const prevTime = Number(new Date())
     const color = selectColor(
@@ -190,12 +189,16 @@ function createDebug (namespace?:string|boolean, env?:Record<string, string>) {
         colors
     )
 
+    // Determine if this is a boolean true passed as the namespace
+    const forcedEnabled = namespace === true
+    const actualNamespace = typeof namespace === 'string' ? namespace : 'DEV'
+
     const debug:(...args:any[])=>void = function (...args:any[]) {
         return logger(
-            typeof namespace === 'string' ? namespace : 'DEV',
+            actualNamespace,
             args,
             { prevTime, color },
-            env
+            forcedEnabled
         )
     }
 

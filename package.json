@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@substrate-system/util": "^0.1.19",
-    "ms": "2.1.3",
     "supports-color": "^10.0.0"
   },
   "devDependencies": {

@@ -31,3 +31,11 @@ debug7('hello quxxx')
 const debug8 = Debug('foo-bar')
 
 debug8('hello eight')
+
+// testing boolean true - should always log regardless of localStorage
+const debugForced = Debug(true)
+debugForced('This should always log because we passed boolean true!')
+
+// testing boolean false - should return noop
+const debugNoop = Debug(false)
+debugNoop('This should never log because we passed boolean false!')
