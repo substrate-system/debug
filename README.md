@@ -17,7 +17,7 @@ This is based on [debug](https://github.com/debug-js/debug).
 It's been rewritten to use contemporary JS.
 
 In the browser, this uses localStorage to control debug output.
-In Node.js, it uses the environmen variable `DEBUG`.
+In Node.js, it uses the environment variable `DEBUG`.
 
 **Featuring:**
 * Use [exports](https://github.com/substrate-system/debug/blob/main/package.json#L31)
