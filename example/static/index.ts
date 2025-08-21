@@ -2,7 +2,7 @@ import Debug from '../../src/browser/index.js'
 
 const debug = Debug()
 
-const debugTwo = Debug('aaa', { DEBUG: 'aaa' })
+const debugTwo = Debug('aaa')
 
 debugTwo('debugging aaa')
 
