@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@substrate-system/tapzero": "^0.10.15",
-    "@substrate-system/tapout": "^0.0.16",
+    "@substrate-system/tapout": "^0.0.17",
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
