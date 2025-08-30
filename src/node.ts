@@ -210,8 +210,6 @@ function logger (namespace:string, args:any[], { prevTime, color }) {
 function isEnabled (namespace?:string|null, _env?:Record<string, string>):boolean {
     const env = _env || process.env
 
-    console.log('aaaaaaaaaaaaaaaaaaaaaa', namespace)
-
     // if no namespace, and we are in dev mode
     if (!namespace) {
         return !!createDebug.shouldLog(env.NODE_ENV!)
