@@ -91,7 +91,7 @@ const colors:number[] = (supportsColor &&
  * Is stdout a TTY? Colored output is enabled when `true`.
  */
 function shouldUseColors ():boolean {
-    return tty.isatty(process.stderr.fd)
+    return tty.isatty(process.stderr.fd) || !!process.env.FORCE_COLOR
 }
 
 function getDate ():string {
@@ -210,14 +210,17 @@ function logger (namespace:string, args:any[], { prevTime, color }) {
 function isEnabled (namespace?:string|null, _env?:Record<string, string>):boolean {
     const env = _env || process.env
 
+    console.log('aaaaaaaaaaaaaaaaaaaaaa', namespace)
+
     // if no namespace, and we are in dev mode
     if (!namespace) {
         return !!createDebug.shouldLog(env.NODE_ENV!)
     }
 
-    // if no env DEBUG mode
-    if (!env.DEBUG) return false
+    // there is a namespace
+    if (!env.DEBUG) return false  // if no env DEBUG mode
 
+    // else check namespace vs DEBUG env var
     const envVars = createRegexFromEnvVar(env.DEBUG)
     return envVars.some(regex => regex.test(namespace))
 }
