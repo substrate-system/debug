@@ -20,7 +20,7 @@
     "lint": "eslint \"./**/*.{ts,js}\"",
     "test-browser": "esbuild ./test/test-browser.ts --target=es2020 --bundle | npx tapout",
     "build-tests": "esbuild test/index.ts --platform=node --bundle --format=esm --keep-names > test/index.js",
-    "test:node": "bash -c 'cd ./example && npx esbuild node.ts --bundle --platform=node --format=esm | DEBUG=\"hello:*,abc123\" node --input-type=module'",
+    "test:node": "bash -c 'cd ./example && npx esbuild node.ts --bundle --platform=node --format=esm | DEBUG=\"hello:*,abc123:*,\" node --input-type=module'",
     "test": "npm run build && esbuild test/index.ts --target=es2020 --bundle --platform=node --format=esm | DEBUG=test NODE_ENV=development node --input-type=module",
     "build-browser-tests": "esbuild test/index.ts --platform=node --target=es2020 --bundle --keep-names > test/test-bundle.js",
     "test-tape-run": "npm run build-browser-tests && cat test/index.html | tape-run --input=html --static=test | tap-spec",
