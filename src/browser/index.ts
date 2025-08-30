@@ -22,7 +22,7 @@ function isEnabled (namespace:string, forcedEnabled?:boolean):boolean {
     // If explicitly forced to be enabled via boolean true
     if (forcedEnabled === true) return true
 
-    const DEBUG = localStorage.getItem('DEBUG')
+    const DEBUG = localStorage?.getItem('DEBUG')
 
     // Check for wildcard
     if (DEBUG === '*') return true
