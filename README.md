@@ -136,6 +136,25 @@ Start a `vite` server and log some things. This uses
 npm start
 ```
 
+### Run the Node example
+
+```sh
+npx esbuild --platform=node --bundle ./example/node.ts | DEBUG="hello:*" node
+```
+
+Try it with a different env var to see different logs:
+
+```sh
+npx esbuild --platform=node --bundle ./example/node.ts | DEBUG="hello:*,abc123:*" node
+```
+
+
+or
+
+```sh
+npm run example:node
+```
+
 
 ## Test
 

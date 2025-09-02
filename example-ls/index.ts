@@ -1,7 +1,7 @@
 import Debug from '../src/browser/index.js'
 const debug = Debug('abc:def')
 
-// this corresponds to setting localStorage in index.html
+// localStorage is set in index.html
 const debug2 = Debug('abc:123')
 
 const debug3 = Debug('abc:456')
