@@ -13,6 +13,10 @@
         "import": "./dist/node.js",
         "require": "./dist/node.cjs"
       },
+      "worker": {
+        "import": "./dist/cloudflare/index.js",
+        "require": "./dist/cloudflare/index.cjs"
+      },
       "browser": {
         "import": "./dist/browser/index.js",
         "require": "./dist/browser/index.cjs"
@@ -30,6 +34,10 @@
       "import": "./dist/browser/index.js",
       "require": "./dist/browser/index.cjs"
     },
+    "./cloudflare": {
+      "import": "./dist/cloudflare/index.js",
+      "require": "./dist/cloudflare/index.cjs"
+    },
     "./*": {
       "import": "./dist/*.js",
       "require": "./dist/*.cjs"
@@ -39,11 +47,13 @@
     "lint": "eslint \"./**/*.{ts,js}\"",
     "test:node": "esbuild ./test/index.ts --format=esm --bundle --platform=node | node --input-type=module",
     "test:browser": "esbuild ./test/test-browser.ts --bundle | npx tapout",
-    "test": "npm run test:browser && npm run test:node",
-    "build-cjs": "esbuild src/node.ts --format=cjs --bundle --platform=node --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --out-extension:.js=.cjs --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=cjs --bundle --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.cjs --sourcemap",
-    "build-cjs:min": "esbuild src/node.ts --format=cjs --bundle --platform=node --minify --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --out-extension:.js=.min.cjs --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=cjs --bundle --minify --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.min.cjs --sourcemap",
-    "build-esm": "esbuild src/node.ts --format=esm --bundle --platform=node --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=esm --bundle --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.js --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
-    "build-esm:min": "esbuild src/node.ts --format=esm --bundle --platform=node --keep-names --minify --tsconfig=tsconfig.build.json --out-extension:.js=.min.js --outdir=./dist --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=esm --bundle --keep-names --minify --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.min.js --sourcemap",
+    "test:cloudflare": "npm run build-cloudflare-worker && node --test test/test-miniflare.mjs",
+    "build-cloudflare-worker": "esbuild test/cloudflare-worker.js --format=esm --bundle --platform=neutral --outfile=test/cloudflare-worker-bundled.js",
+    "test": "npm run test:browser && npm run test:node && npm run test:cloudflare",
+    "build-cjs": "esbuild src/node.ts --format=cjs --bundle --platform=node --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --out-extension:.js=.cjs --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=cjs --bundle --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.cjs --sourcemap && esbuild src/cloudflare/index.ts --format=cjs --bundle --platform=neutral --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/cloudflare/index.cjs --sourcemap",
+    "build-cjs:min": "esbuild src/node.ts --format=cjs --bundle --platform=node --minify --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --out-extension:.js=.min.cjs --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=cjs --bundle --minify --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.min.cjs --sourcemap && esbuild src/cloudflare/index.ts --format=cjs --bundle --platform=neutral --minify --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/cloudflare/index.min.cjs --sourcemap",
+    "build-esm": "esbuild src/node.ts --format=esm --bundle --platform=node --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=esm --bundle --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.js --sourcemap && esbuild src/cloudflare/index.ts --format=esm --bundle --platform=neutral --keep-names --tsconfig=tsconfig.build.json --outfile=./dist/cloudflare/index.js --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
+    "build-esm:min": "esbuild src/node.ts --format=esm --bundle --platform=node --keep-names --minify --tsconfig=tsconfig.build.json --out-extension:.js=.min.js --outdir=./dist --sourcemap --external:supports-color --external:@substrate-system/util && esbuild src/browser/index.ts --format=esm --bundle --keep-names --minify --tsconfig=tsconfig.build.json --outfile=./dist/browser/index.min.js --sourcemap && esbuild src/cloudflare/index.ts --format=esm --bundle --platform=neutral --keep-names --minify --tsconfig=tsconfig.build.json --outfile=./dist/cloudflare/index.min.js --sourcemap",
     "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-cjs && npm run build-esm && npm run build-esm:min && npm run build-cjs:min",
     "exmaple:node": "npx esbuild --platform=node --bundle ./example/node.ts | DEBUG=\"hello:*\" node",
     "build-example": "vite build",
@@ -72,6 +82,7 @@
     "eslint-config-standard": "^17.1.0",
     "http-server": "^14.1.1",
     "markdown-toc": "^1.2.0",
+    "miniflare": "^4.20250829.0",
     "tap-spec": "^5.0.0",
     "typedoc": "^0.28.1",
     "typescript": "^5.4.5",

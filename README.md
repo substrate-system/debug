@@ -7,6 +7,9 @@
 [![GZip size](https://flat.badgen.net/bundlephobia/minzip/@substrate-system/web-component)](https://bundlephobia.com/package/@substrate-system/web-component)
 [![license](https://img.shields.io/badge/license-Big_Time-blue?style=flat-square)](LICENSE)
 
+* [x] Cloudflare
+* [x] Node
+* [x] browsers
 
 A tiny JavaScript debugging utility that works in Node.js and browsers.
 Use environment variables to control logging in Node.js, and `localStorage`
@@ -20,7 +23,7 @@ In Node.js, it uses the environment variable `DEBUG`.
 
 **Featuring:**
 * Use [exports](https://github.com/substrate-system/debug/blob/main/package.json#L31)
-  field in `package.json` to choose node JS or browser version
+  field in `package.json` to choose node JS, browser, or cloudflare version
 * ESM only
 
 Plus, [see the docs](https://substrate-system.github.io/debug/)
@@ -193,8 +196,26 @@ npm run example:node
 
 ## Test
 
-Run tests for Node and browsers:
+### All tests
 
 ```sh
 npm test
+```
+
+### Node
+
+```sh
+npm run test:node
+```
+
+### Cloudlfare
+
+```sh
+npm run test:cloudflare
+```
+
+### Browsers
+
+```sh
+npm run test:browser
 ```
