@@ -146,9 +146,9 @@ const log = Debug('auth')
 const logSign = log.extend('sign')
 const logLogin = log.extend('login')
 
-log('hello') // auth hello
-logSign('hello') // auth:sign hello  
-logLogin('hello') // auth:login hello
+log('hello')  // auth hello
+logSign('hello')  // auth:sign hello  
+logLogin('hello')  // auth:login hello
 ```
 
 Chained extending is also supported:
@@ -193,9 +193,7 @@ npm run example:node
 
 ## Test
 
-### Node
-
-Run tests:
+Run tests for Node and browsers:
 
 ```sh
 npm test
