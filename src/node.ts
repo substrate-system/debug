@@ -1,8 +1,8 @@
 import '@substrate-system/util/node/self'
 import supportsColor from 'supports-color'
 import ms from './ms.js'
-import tty from 'tty'
-import util from 'util'
+import tty from 'node:tty'
+import util from 'node:util'
 import { generateRandomString, coerce, createRegexFromEnvVar } from './common.js'
 
 const colors:number[] = (supportsColor &&
@@ -129,13 +129,19 @@ function createFormatters (useColors:boolean, inspectOpts = {}) {
 }
 
 let randomNamespace:string = ''
+
+export interface Debugger {
+    (...args: any[]): void;
+    extend: (namespace: string) => Debugger;
+}
+
 /**
  * Create a debugger with the given `namespace`.
  *
  * @param {string} namespace
  * @return {Function}
  */
-export function createDebug (namespace?:string|null, env?:Record<string, any>) {
+export function createDebug (namespace?:string|null, env?:Record<string, any>):Debugger {
     // eslint-disable-next-line
     let prevTime = Number(new Date())
     if (!randomNamespace) randomNamespace = generateRandomString(10)
@@ -148,7 +154,12 @@ export function createDebug (namespace?:string|null, env?:Record<string, any>) {
         }
     }
 
-    return debug
+    debug.extend = function (extension: string):Debugger {
+        const extendedNamespace = _namespace + ':' + extension
+        return createDebug(extendedNamespace, env)
+    }
+
+    return debug as Debugger
 }
 
 createDebug.shouldLog = function (envString:string) {

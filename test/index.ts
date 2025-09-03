@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { dirname, join, resolve } from 'node:path'
 import { writeFileSync, unlinkSync } from 'node:fs'
+import './test-extend.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -58,7 +59,7 @@ test('Multiple namespaces in DEBUG env var', async t => {
     t.ok(stderr.includes('from test'), 'Should log from test namespace')
 })
 
-test('Node.js debug with env object parameter - matching namespace', async t => {
+test('Debug with env object parameter - matching namespace', async t => {
     const code = `
         import createDebug from '${nodeJsPath}'
         const debug = createDebug('mytest', { DEBUG: 'mytest' })
@@ -142,7 +143,52 @@ test('Node.js debug with object formatting', async t => {
     t.ok(stderr.includes('test'), 'Should include object values')
 })
 
-// Helper function to run a child process and capture output
+test('extend method', async t => {
+    const code = `
+        import createDebug from '${nodeJsPath}'
+        const log = createDebug('auth')
+        const logSign = log.extend('sign')
+        const logLogin = log.extend('login')
+        
+        log('base auth')
+        logSign('signing in')
+        logLogin('logging in')
+        
+        // Test chained extending
+        const logSignVerbose = logSign.extend('verbose')
+        logSignVerbose('verbose sign')
+    `
+
+    const { stderr } = await runChildProcess(code, { DEBUG: 'auth:*' })
+    t.ok(stderr.includes('auth:sign signing in'),
+        'Should log from extended namespace')
+    t.ok(stderr.includes('auth:login logging in'),
+        'Should log from another extended namespace')
+    t.ok(stderr.includes('auth:sign:verbose verbose sign'),
+        'Should support chained extending')
+    t.ok(!stderr.includes('base auth'),
+        'Base namespace should not match auth:* pattern')
+})
+
+test('extend method with wildcard DEBUG pattern', async t => {
+    const code = `
+        import createDebug from '${nodeJsPath}'
+        const log = createDebug('app')
+        const logExtended = log.extend('module')
+        
+        log('base message')
+        logExtended('extended message')
+    `
+
+    const { stderr } = await runChildProcess(code, { DEBUG: '*' })
+    t.ok(stderr.includes('app base message'),
+        'Should log base namespace with wildcard')
+    t.ok(stderr.includes('app:module extended message'),
+        'Should log extended namespace with wildcard')
+})
+
+// Helper function
+// run a child process and capture output
 function runChildProcess (
     code:string,
     env:Record<string, string> = {}

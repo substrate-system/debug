@@ -181,10 +181,13 @@ function formatArgs ({ diff, color, namespace, useColors }:{
     return args
 }
 
-export type Debugger = (...args: any[]) => void
+export type Debugger = {
+    (...args: any[]): void;
+    extend: (namespace: string) => Debugger;
+}
 
 function createDebug (namespace?:string|boolean):Debugger {
-    if (namespace === false) return noop
+    if (namespace === false) return noop()
     const prevTime = Number(new Date())
     const color = selectColor(
         typeof namespace === 'string' ? namespace : generateRandomString(10),
@@ -195,7 +198,7 @@ function createDebug (namespace?:string|boolean):Debugger {
     const forcedEnabled = namespace === true
     const actualNamespace = typeof namespace === 'string' ? namespace : 'DEV'
 
-    const debug:(...args:any[])=>void = function (...args:any[]) {
+    const debug = function (...args:any[]) {
         return logger(
             actualNamespace,
             args,
@@ -204,7 +207,18 @@ function createDebug (namespace?:string|boolean):Debugger {
         )
     }
 
-    return debug
+    debug.extend = function (extension: string): Debugger {
+        const extendedNamespace = actualNamespace + ':' + extension
+        return createDebug(extendedNamespace)
+    }
+
+    return debug as Debugger
 }
 
-function noop () {}
+function noop (): Debugger {
+    const noopFn = function () {}
+    noopFn.extend = function (_extension: string): Debugger {
+        return noop()
+    }
+    return noopFn as Debugger
+}
