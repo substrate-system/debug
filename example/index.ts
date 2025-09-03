@@ -1,9 +1,24 @@
 import Debug from '../src/browser/index.js'
+import { noop } from '../src/noop.js'
+import { type Debugger } from '../src/browser/index.js'
 
 console.log('import meta env', import.meta.env)
 console.log('is dev???', import.meta.env.DEV)
 
 const debug = Debug('fooo')
+
+localStorage.setItem('DEBUG', 'abc:*')
+
+let dynamicDebugger:Debugger
+
+if (import.meta.env.DEV) {
+    const { createDebug } = (await import('../src/browser/index.js'))
+    dynamicDebugger = createDebug('abc:123')
+} else {
+    dynamicDebugger = noop
+}
+
+dynamicDebugger('hello dynamic imports')
 
 debug('debug works')
 

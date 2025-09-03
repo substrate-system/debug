@@ -5,6 +5,7 @@ import {
     selectColor,
     createRegexFromEnvVar
 } from '../common.js'
+import { noop } from '../noop.js'
 import { colors } from './util.js'
 
 const log = console.log || (() => {})
@@ -187,7 +188,7 @@ export type Debugger = {
 }
 
 function createDebug (namespace?:string|boolean):Debugger {
-    if (namespace === false) return noop()
+    if (namespace === false) return noop
     const prevTime = Number(new Date())
     const color = selectColor(
         typeof namespace === 'string' ? namespace : generateRandomString(10),
@@ -213,12 +214,4 @@ function createDebug (namespace?:string|boolean):Debugger {
     }
 
     return debug as Debugger
-}
-
-function noop (): Debugger {
-    const noopFn = function () {}
-    noopFn.extend = function (_extension: string): Debugger {
-        return noop()
-    }
-    return noopFn as Debugger
 }

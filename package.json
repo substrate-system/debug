@@ -29,6 +29,10 @@
     "./browser": {
       "import": "./dist/browser/index.js",
       "require": "./dist/browser/index.cjs"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "require": "./dist/*.cjs"
     }
   },
   "scripts": {

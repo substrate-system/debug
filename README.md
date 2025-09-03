@@ -67,6 +67,7 @@ import Debug from '@substrate-system/debug'
 // Set DEBUG in localStorage
 localStorage.setItem('DEBUG', 'myapp:*')
 
+// create debug instance
 const debug = Debug('myapp:component')
 debug('hello logs')
 // will log, because DEBUG in localStorage matches 'myapp:*'
@@ -74,20 +75,24 @@ debug('hello logs')
 
 ### Factor out of production
 
-Use dynamic imoprts to keep this out of your production code.
+Use [dynamic imoprts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
+to keep this entirely out of production code, so your bundle is smaller.
 
 ```ts
-import type { Debugger } from '@substrate-system/debug'
+import { Debugger } from '@substrate-system/debug/browser'
+import { noop } from '@substrate-system/debug/noop'
 
 let debug:Debugger
 if (import.meta.env.DEV) {
   const Debug = await import('/example/debug.js')
   debug = Debug('myApplication:abc')
 } else {
-  debug = function noop (...args:any[]) {}
+  debug = noop  // this is a function matching the signature for Debugger
 }
 ```
 
+> [!NOTE]  
+> We export `noop` here; it has the same type signature as `debug`.
 
 ## Node JS
 Run your script with an env variable, `DEBUG`.
@@ -128,23 +133,12 @@ localStorage.setItem('DEBUG', '*')
 
 ### Enable specific namespaces
 ```js
-localStorage.setItem('DEBUG', 'myapp:auth,myapp:api')
-```
-
-### Force logging with boolean true
-
-You can also pass `true` to force logging regardless of `localStorage`.
-For example, in Vite, this will log on your localhost server, but not
-in production:
-
-```js
-const debug = Debug(import.meta.env.DEV)
-debug('This logs')
+localStorage.setItem('DEBUG', 'myapp:auth,myapp:api,myapp:api:*')
 ```
 
 ### Extend
 
-You can simply extend debugger to create new debug instances with extended namespaces:
+You can extend the debugger to create new debug instances with new namespaces:
 
 ```js
 const log = Debug('auth')
