@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // path to built node.js file
-const nodeJsPath = resolve(process.cwd(), 'dist/node.js')
+const nodeJsPath = resolve(process.cwd(), 'dist/node/index.js')
 
 test('Logs to stderr when namespace matches DEBUG env var', async t => {
     const code = `
