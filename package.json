@@ -2,7 +2,7 @@
   "name": "@substrate-system/debug",
   "description": "Debug utility",
   "type": "module",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "main": "./dist/node.js",
   "files": [
     "./dist/*"
