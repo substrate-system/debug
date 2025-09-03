@@ -1,9 +1,10 @@
-import humanize from 'ms'
+import humanize from '../ms.js'
 import {
     generateRandomString,
     coerce,
     selectColor,
-    createRegexFromEnvVar
+    createRegexFromEnvVar,
+    type Debugger
 } from '../common.js'
 import { noop } from '../noop.js'
 
@@ -24,20 +25,15 @@ export default createDebug
  * Check if the given namespace is enabled in Cloudflare Workers.
  * Since there's no localStorage, we check environment variables or global DEBUG.
  * `namespace` is the name that is passed into debug.
- * `forcedEnabled` is a boolean that forces logging when true.
+ * `env` is an optional environment object that can contain DEBUG setting.
  */
-function isEnabled (namespace: string, forcedEnabled?: boolean): boolean {
-    // If explicitly forced to be enabled via boolean true
-    if (forcedEnabled === true) return true
-
-    // In Cloudflare Workers, check global DEBUG variable or environment
-    const DEBUG = (typeof globalThis !== 'undefined' && (globalThis as any).DEBUG) ||
+function isEnabled (namespace:string, env?:Record<string, string>):boolean {
+    // Determine the DEBUG value from env parameter, global, or process.env
+    const DEBUG = env?.DEBUG ||
+                  (typeof globalThis !== 'undefined' && (globalThis as any).DEBUG) ||
                   (typeof process !== 'undefined' && process.env?.DEBUG)
 
-    // Check for wildcard
-    if (DEBUG === '*') return true
-
-    // if we were not called with a namespace
+    // If no namespace (DEV mode), check if there's no DEBUG variable
     if (namespace === 'DEV') {
         // We want to log iff there is no DEBUG variable.
         if (!DEBUG) {
@@ -49,16 +45,21 @@ function isEnabled (namespace: string, forcedEnabled?: boolean): boolean {
     // No DEBUG variable set
     if (!DEBUG) return false
 
+    // Check for wildcard
+    if (DEBUG === '*') return true
+
+    // Check namespace vs DEBUG env var
     const envVars = createRegexFromEnvVar(DEBUG)
     return envVars.some(regex => regex.test(namespace))
 }
 
 /**
- * Map %j to `JSON.stringify()`, since Cloudflare Workers don't have Web Inspectors.
+ * Map %j to `JSON.stringify()`, since Cloudflare Workers don't
+ * have Web Inspectors.
  */
 function createFormatters () {
     return {
-        j: function (v: any) {
+        j: function (v:any) {
             try {
                 return JSON.stringify(v)
             } catch (error) {
@@ -69,13 +70,13 @@ function createFormatters () {
 }
 
 function logger (
-    namespace: string,
-    args: any[],
+    namespace:string,
+    args:any[],
     { prevTime, color },
-    forcedEnabled?: boolean
+    env?:Record<string, string>
 ) {
     args = args || []
-    if (!isEnabled(namespace, forcedEnabled)) return
+    if (!isEnabled(namespace, env)) return
 
     // Set `diff` timestamp
     const curr = Number(new Date())
@@ -123,7 +124,7 @@ function logger (
     log(..._args)
 }
 
-function shouldUseColors (): boolean {
+function shouldUseColors ():boolean {
     // Cloudflare Workers typically don't support colors in console output
     // But we can detect if we're in a development environment
     return false
@@ -131,47 +132,62 @@ function shouldUseColors (): boolean {
 
 /**
  * Format log arguments for Cloudflare Workers (no color support typically).
+ * Mutates the given args.
  */
-function formatArgs ({ diff, namespace }: {
-    diff: number,
-    color: number,
-    namespace: string,
-    useColors: boolean
-}, args) {
+function formatArgs ({ diff, namespace }:{
+    diff:number,
+    color:number,
+    namespace:string,
+    useColors:boolean
+}, args:string[]) {
     args[0] = namespace + ' ' + args[0] + ' +' + humanize(diff, {})
     return args
 }
 
-export type CloudflareDebugger = {
-    (...args: any[]): void;
-    extend: (namespace: string) => CloudflareDebugger;
-}
+function createDebug (namespace?:string, env?:Record<string, string>):Debugger;
+function createDebug (enabled:boolean):Debugger;
+function createDebug (
+    namespaceOrEnabled?:string|boolean,
+    env?:Record<string, string>
+):Debugger {
+    // Handle the case where first parameter is a boolean
+    if (typeof namespaceOrEnabled === 'boolean') {
+        if (namespaceOrEnabled === false) return noop
+        // If namespaceOrEnabled is true, use DEV mode with forced logging
+        return createDebug('DEV', { DEBUG: '*' })
+    }
 
-function createDebug (namespace?: string | boolean): CloudflareDebugger {
-    if (namespace === false) return noop
     const prevTime = Number(new Date())
     const color = selectColor(
-        typeof namespace === 'string' ? namespace : generateRandomString(10),
+        typeof namespaceOrEnabled === 'string' ?
+            namespaceOrEnabled :
+            generateRandomString(10),
         colors
     )
 
-    // Determine if this is a boolean true passed as the namespace
-    const forcedEnabled = namespace === true
-    const actualNamespace = typeof namespace === 'string' ? namespace : 'DEV'
+    const actualNamespace = typeof namespaceOrEnabled === 'string' ?
+        namespaceOrEnabled :
+        'DEV'
 
-    const debug = function (...args: any[]) {
+    // Handle environment parameter
+    let envObj:Record<string, string>|undefined
+    if (typeof env === 'object') {
+        envObj = env
+    }
+
+    const debug = function (...args:any[]) {
         return logger(
             actualNamespace,
             args,
             { prevTime, color },
-            forcedEnabled
+            envObj
         )
     }
 
-    debug.extend = function (extension: string): CloudflareDebugger {
+    debug.extend = function (extension:string):Debugger {
         const extendedNamespace = actualNamespace + ':' + extension
-        return createDebug(extendedNamespace)
+        return createDebug(extendedNamespace, envObj)
     }
 
-    return debug as CloudflareDebugger
+    return debug
 }

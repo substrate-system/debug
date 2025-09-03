@@ -40,6 +40,11 @@ export function createRegexFromEnvVar (names:string):RegExp[] {
     return regexs
 }
 
+export type Debugger = {
+    (...args: any[]): void;
+    extend: (namespace: string) => Debugger;
+}
+
 /**
  * Use this to create a random namespace in the case that `debug`
  * is called without any arguments.

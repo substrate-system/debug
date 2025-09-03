@@ -90,7 +90,8 @@ function runCloudflareTests () {
     // Test 3: Debug with boolean false (noop)
     const noopDebug = createDebugCF(false)
     t.ok(typeof noopDebug === 'function', 'noop debug should be a function')
-    t.ok(typeof noopDebug.extend === 'function', 'noop debug should have extend method')
+    t.ok(typeof noopDebug.extend === 'function',
+        'noop debug should have extend method')
 
     // Test 4: Force enabled debug (should always log)
     t.clearConsoleOutput()
@@ -100,7 +101,8 @@ function runCloudflareTests () {
     console.log('DEBUG: captured output:', output) // Debug line
     t.ok(output.length > 0, 'Forced debug should produce output')
     if (output.length > 0) {
-        t.ok(output[0].includes('forced message in workers'), 'Output should contain the message')
+        t.ok(output[0].includes('forced message in workers'),
+            'Output should contain the message')
     } else {
         t.fail('No output captured from forced debug')
     }
@@ -112,7 +114,8 @@ function runCloudflareTests () {
     wildcardDebug('wildcard test message')
     const wildcardOutput = t.getConsoleOutput()
     t.ok(wildcardOutput.length > 0, 'Wildcard DEBUG should enable logging')
-    t.ok(wildcardOutput[0].includes('wildcard test message'), 'Should log with wildcard pattern')
+    t.ok(wildcardOutput[0].includes('wildcard test message'),
+        'Should log with wildcard pattern')
 
     // Test 6: Debug with specific namespace pattern
     t.clearConsoleOutput()

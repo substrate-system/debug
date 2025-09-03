@@ -3,7 +3,8 @@ import {
     generateRandomString,
     coerce,
     selectColor,
-    createRegexFromEnvVar
+    createRegexFromEnvVar,
+    type Debugger
 } from '../common.js'
 import { noop } from '../noop.js'
 import { colors } from './util.js'
@@ -180,11 +181,6 @@ function formatArgs ({ diff, color, namespace, useColors }:{
     args.splice(lastC, 0, c)
 
     return args
-}
-
-export type Debugger = {
-    (...args: any[]): void;
-    extend: (namespace: string) => Debugger;
 }
 
 function createDebug (namespace?:string|boolean):Debugger {
