@@ -30,8 +30,8 @@ export default createDebug
 function isEnabled (namespace:string, env?:Record<string, string>):boolean {
     // Determine the DEBUG value from env parameter, global, or process.env
     const DEBUG = env?.DEBUG ||
-                  (typeof globalThis !== 'undefined' && (globalThis as any).DEBUG) ||
-                  (typeof process !== 'undefined' && process.env?.DEBUG)
+        (typeof globalThis !== 'undefined' && (globalThis as any).DEBUG) ||
+        (typeof process !== 'undefined' && process.env?.DEBUG)
 
     // If no namespace (DEV mode), check if there's no DEBUG variable
     if (namespace === 'DEV') {

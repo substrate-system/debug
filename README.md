@@ -99,11 +99,26 @@ if (import.meta.env.DEV) {
 > [!NOTE]  
 > We export `noop` here; it has the same type signature as `debug`.
 
+## Cloudflare
+
+Either pass in an env record, or will look at `globalThis` for
+the `DEBUG` variable.
+
+```js
+import Debug from '@substrate-system/debug/cloudflare'
+
+const myEnvVar = {
+  DEBUG: 'abc:*'
+}
+
+const debug = Debug('abc:123', myEnvVar)
+```
+
 ## Node JS
+
 Run your script with an env variable, `DEBUG`.
 
 ```js
-// in node JS
 import createDebug from '@substrate-system/debug/node'
 const debug = createDebug('fooo')
 debug('testing')
