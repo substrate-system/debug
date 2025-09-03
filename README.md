@@ -9,9 +9,8 @@
 
 
 A tiny JavaScript debugging utility that works in Node.js and browsers.
-Use environment variables to control logging in Node.js, and localStorage
-to control logging in browsers, so there are no ridiculous console log 
-statements in production.
+Use environment variables to control logging in Node.js, and `localStorage`
+in browsers. Keep your ridiculous console log statements out of production.
 
 This is based on [debug](https://github.com/debug-js/debug).
 It's been rewritten to use contemporary JS.
