@@ -71,6 +71,23 @@ debug('hello logs')
 // will log, because DEBUG in localStorage matches 'myapp:*'
 ```
 
+### Factor out of production
+
+Use dynamic imoprts to keep this out of your production code.
+
+```ts
+import type { Debugger } from '@substrate-system/debug'
+
+let debug:Debugger
+if (import.meta.env.DEV) {
+  const Debug = await import('/example/debug.js')
+  debug = Debug('myApplication:abc')
+} else {
+  debug = function noop (...args:any[]) {}
+}
+```
+
+
 ## Node JS
 Run your script with an env variable, `DEBUG`.
 

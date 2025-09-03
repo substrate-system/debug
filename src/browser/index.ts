@@ -181,7 +181,9 @@ function formatArgs ({ diff, color, namespace, useColors }:{
     return args
 }
 
-function createDebug (namespace?:string|boolean) {
+export type Debugger = (...args: any[]) => void
+
+function createDebug (namespace?:string|boolean):Debugger {
     if (namespace === false) return noop
     const prevTime = Number(new Date())
     const color = selectColor(
