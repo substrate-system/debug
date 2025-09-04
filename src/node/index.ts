@@ -149,7 +149,10 @@ let randomNamespace:string = ''
  * @param {string} namespace
  * @return {Function}
  */
-export function createDebug (namespace?:string|null, env?:Record<string, any>):Debugger {
+export function createDebug (
+    namespace?:string|null,
+    env?:Record<string, any>
+):Debugger {
     // eslint-disable-next-line
     let prevTime = Number(new Date())
     if (!randomNamespace) randomNamespace = generateRandomString(10)
@@ -162,7 +165,7 @@ export function createDebug (namespace?:string|null, env?:Record<string, any>):D
         }
     }
 
-    debug.extend = function (extension: string):Debugger {
+    debug.extend = function (extension:string):Debugger {
         const extendedNamespace = _namespace + ':' + extension
         return createDebug(extendedNamespace, env)
     }
