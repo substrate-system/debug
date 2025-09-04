@@ -1,5 +1,5 @@
 import { test } from '@substrate-system/tapzero'
-import createDebug from '../dist/node/index.js'
+import createDebug from '../src/node.js'
 
 test('create debug instance with extended namespaces', async t => {
     // Test the extend functionality

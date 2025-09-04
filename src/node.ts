@@ -3,7 +3,7 @@ import supportsColor from 'supports-color'
 import ms from './ms.js'
 import tty from 'node:tty'
 import util from 'node:util'
-import { generateRandomString, coerce, createRegexFromEnvVar } from './common.js'
+import { generateRandomString, coerce, createRegexFromEnvVar } from './index.js'
 
 const colors:number[] = (supportsColor &&
     // @ts-expect-error ???

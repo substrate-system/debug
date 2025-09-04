@@ -5,7 +5,7 @@ import {
     selectColor,
     createRegexFromEnvVar,
     type Debugger
-} from '../common.js'
+} from '../index.js'
 import { noop } from '../noop.js'
 import { colors } from './util.js'
 
