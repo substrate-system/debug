@@ -1,6 +1,6 @@
 import Debug from '../src/browser/index.js'
 import { noop } from '../src/noop.js'
-import { type Debugger } from '../src/browser/index.js'
+import { type Debugger } from '../src/index.js'
 
 console.log('import meta env', import.meta.env)
 console.log('is dev???', import.meta.env.DEV)

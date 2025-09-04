@@ -5,7 +5,7 @@ import {
     selectColor,
     createRegexFromEnvVar,
     type Debugger
-} from '../common.js'
+} from '../index.js'
 import { noop } from '../noop.js'
 
 // Cloudflare Workers have a limited set of Web APIs
