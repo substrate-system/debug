@@ -4,7 +4,8 @@ import util from 'node:util'
 import {
     generateRandomString,
     coerce,
-    createRegexFromEnvVar
+    createRegexFromEnvVar,
+    type Debugger
 } from '../index.js'
 import ms from '../ms.js'
 
@@ -141,11 +142,6 @@ function createFormatters (useColors:boolean, inspectOpts = {}) {
 }
 
 let randomNamespace:string = ''
-
-export interface Debugger {
-    (...args: any[]): void;
-    extend: (namespace: string) => Debugger;
-}
 
 /**
  * Create a debugger with the given `namespace`.
