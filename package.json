@@ -61,7 +61,7 @@
     "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-cjs && npm run build-esm && npm run build-esm:min && npm run build-cjs:min",
     "exmaple:node": "npx esbuild --platform=node --bundle ./example/node.ts | DEBUG=\"hello:*\" node",
     "build-example": "vite build",
-    "build-docs": "typedoc ./src/browser.ts ./src/node.ts",
+    "build-docs": "typedoc ./src/index.ts ./src/browser/index.ts ./src/node.ts ./src/cloudflare/index.ts",
     "toc": "markdown-toc --maxdepth 3 -i README.md",
     "start": "vite --mode=staging",
     "start:ls": "vite --config vite-ls.config.js example-ls",
