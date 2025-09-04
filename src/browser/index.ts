@@ -11,6 +11,7 @@ import { colors } from './util.js'
 
 const log = console.log || (() => {})
 
+export { Debugger }
 export { createDebug }
 export default createDebug
 

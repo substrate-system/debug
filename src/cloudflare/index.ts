@@ -8,6 +8,8 @@ import {
 } from '../index.js'
 import { noop } from '../noop.js'
 
+export * from '../index.js'
+
 // Cloudflare Workers have a limited set of Web APIs
 // No localStorage, document, or navigator
 const log = console.log || (() => {})

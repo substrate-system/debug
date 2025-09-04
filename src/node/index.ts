@@ -1,9 +1,21 @@
-import '@substrate-system/util/node/self'
 import supportsColor from 'supports-color'
-import ms from './ms.js'
 import tty from 'node:tty'
 import util from 'node:util'
-import { generateRandomString, coerce, createRegexFromEnvVar } from './index.js'
+import {
+    generateRandomString,
+    coerce,
+    createRegexFromEnvVar
+} from '../index.js'
+import ms from '../ms.js'
+
+export * from '../index.js'
+
+(function () {
+    if (typeof self === 'undefined' && typeof global === 'object') {
+        // @ts-expect-error self
+        global.self = global
+    }
+})()
 
 const colors:number[] = (supportsColor &&
     // @ts-expect-error ???

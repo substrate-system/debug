@@ -1,4 +1,4 @@
-import { createDebug } from '../src/node.js'
+import { createDebug } from '../src/node/index.js'
 
 const debug = createDebug()
 
