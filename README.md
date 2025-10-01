@@ -83,7 +83,7 @@ debug('hello logs')
 
 ### Factor out of production
 
-Use [dynamic imoprts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
+Use [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
 to keep this entirely out of production code, so your bundle is smaller.
 
 You would need to either build this module to the right path, or copy the
