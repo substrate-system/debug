@@ -78,7 +78,7 @@ localStorage.setItem('DEBUG', 'myapp:*')
 // create debug instance
 const debug = Debug('myapp:component')
 debug('hello logs')
-// will log, because DEBUG in localStorage matches 'myapp:*'
+// will log, because DEBUG in localStorage matches 'myapp:component'
 ```
 
 ### Factor out of production
