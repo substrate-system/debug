@@ -11,15 +11,15 @@
 * [x] Node
 * [x] browsers
 
-A tiny JavaScript debugging utility that works in Node.js and browsers.
-Use environment variables to control logging in Node.js, and `localStorage`
+A tiny JavaScript debugging utility that works in Node and browsers.
+Use environment variables to control logging in Node, and `localStorage`
 in browsers. Keep your ridiculous console log statements out of production.
 
 This is based on [debug](https://github.com/debug-js/debug).
 It's been rewritten to use contemporary JS.
 
-In the browser, this uses localStorage to control debug output.
-In Node.js, it uses the environment variable `DEBUG`.
+In the browser, this uses localStorage key `'DEBUG'`.
+In Node, it uses the environment variable `DEBUG`.
 
 **Featuring:**
 * Use [exports](https://github.com/substrate-system/debug/blob/main/package.json#L31)
@@ -84,21 +84,60 @@ debug('hello logs')
 Use [dynamic imoprts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
 to keep this entirely out of production code, so your bundle is smaller.
 
-```ts
-import { Debugger } from '@substrate-system/debug/browser'
-import { noop } from '@substrate-system/debug/noop'
+You would need to either build this module to the right path, or copy the
+bundled JS included here:
 
-let debug:Debugger
-if (import.meta.env.DEV) {
-  const Debug = await import('/example/debug.js')
-  debug = Debug('myApplication:abc')
-} else {
-  debug = noop  // this is a function matching the signature for Debugger
-}
+```sh
+cp ./node_modules/@substrate-system/debug/dist/browser/index.min.js ./public/debug.js
 ```
+
+#### Dynamic Imports
 
 > [!NOTE]  
 > We export `noop` here; it has the same type signature as `debug`.
+
+```ts
+import { type Debug, noop } from '@substrate-system/debug/noop'
+
+let debug:ReturnType<typeof Debug> = noop
+if (import.meta.env.DEV) {
+  const Debug = await import('/example-path/debug.js')
+  debug = Debug('myApplication:abc')
+}
+```
+
+### HTML `importmap`
+
+Or use the HTML [importmap script tag](https://www.honeybadger.io/blog/import-maps/)
+to replace this in production. In these examples, you would need to build this
+module or copy the minified JS file to the right directory.
+
+#### Development
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@substrate-system/debug": "/example-path/debug.js",
+  }
+}
+</script>
+```
+
+#### Production
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@substrate-system/debug": "data:text/javascript,export default function(){return()=>{}}"
+  }
+}
+</script>
+```
+
+> [!TIP]
+> Using a `data:` URL means no network request at all for the noop.
 
 ## Cloudflare
 
@@ -157,6 +196,19 @@ localStorage.setItem('DEBUG', '*')
 localStorage.setItem('DEBUG', 'myapp:auth,myapp:api,myapp:api:*')
 ```
 
+### Boolean
+
+Pass in a boolean to enable or disable the `debug` instance. This will log
+with a random color.
+
+```js
+import Debug from '@substrate-system/debug'
+const debug = Debug(import.meta.env.DEV)  // for vite dev server
+
+debug('hello')
+// => DEV hello
+```
+
 ### Extend
 
 You can extend the debugger to create new debug instances with new namespaces:
@@ -168,6 +220,8 @@ const log = Debug('auth')
 const logSign = log.extend('sign')
 const logLogin = log.extend('login')
 
+window.localStorage.setItem('DEBUG', 'auth,auth:*')
+
 log('hello')  // auth hello
 logSign('hello')  // auth:sign hello  
 logLogin('hello')  // auth:login hello
@@ -177,7 +231,7 @@ Chained extending is also supported:
 
 ```js
 const logSignVerbose = logSign.extend('verbose')
-logSignVerbose('hello') // auth:sign:verbose hello
+logSignVerbose('hello')  // auth:sign:verbose hello
 ```
 
 ------------------------------------------------------------------
@@ -186,6 +240,7 @@ logSignVerbose('hello') // auth:sign:verbose hello
 ## Develop
 
 ### browser
+
 Start a `vite` server and log some things. This uses
 [the example directory](./example/).
 
