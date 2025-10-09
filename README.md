@@ -86,8 +86,8 @@ debug('hello logs')
 Use [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
 to keep this entirely out of production code, so your bundle is smaller.
 
-You would need to either build this module to the right path, or copy the
-bundled JS included here:
+Either build this module to the right path, or copy the
+bundled JS included here, then you can dynamically import the module.
 
 ```sh
 cp ./node_modules/@substrate-system/debug/dist/browser/index.min.js ./public/debug.js
