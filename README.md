@@ -112,7 +112,8 @@ if (import.meta.env.DEV) {
 
 Or use the HTML [importmap script tag](https://www.honeybadger.io/blog/import-maps/)
 to replace this in production. In these examples, you would need to build this
-module or copy the minified JS file to the right directory.
+module or copy the minified JS file to the right directory, so it is accessible
+to your web server.
 
 #### Development
 
