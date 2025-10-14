@@ -150,18 +150,27 @@ let randomNamespace:string = ''
  * @return {Function}
  */
 export function createDebug (
-    namespace?:string|null,
+    namespace?:string|boolean|null,
     env?:Record<string, any>
 ):Debugger {
     // eslint-disable-next-line
     let prevTime = Number(new Date())
     if (!randomNamespace) randomNamespace = generateRandomString(10)
-    const _namespace = namespace || randomNamespace
-    const color = selectColor(_namespace, colors)
+    const _namespace = typeof namespace === 'string' ? namespace : randomNamespace
+    const color = selectColor(
+        typeof namespace === 'string' ? namespace : generateRandomString(10),
+        colors
+    )
 
     function debug (...args:any[]) {
         if (isEnabled(namespace, env)) {
-            return logger(namespace || 'DEV', args, { prevTime, color })
+            if (!namespace) return  // for TS
+
+            return logger(
+                namespace === true ? 'DEV' : namespace,
+                args,
+                { prevTime, color }
+            )
         }
     }
 
@@ -229,12 +238,16 @@ function logger (namespace:string, args:any[], { prevTime, color }) {
 /**
  * Check if the given namespace is enabled.
  */
-function isEnabled (namespace?:string|null, _env?:Record<string, string>):boolean {
+function isEnabled (namespace?:string|boolean|null, _env?:Record<string, string>):boolean {
     const env = _env || process.env
+
+    if (namespace === true) {
+        return true
+    }
 
     // if no namespace, and we are in dev mode
     if (!namespace) {
-        return !!createDebug.shouldLog(env.NODE_ENV!)
+        return false
     }
 
     // there is a namespace
