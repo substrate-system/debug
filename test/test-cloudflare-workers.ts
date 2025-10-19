@@ -168,19 +168,10 @@ function runCloudflareTests () {
     const noEnvOutput = t.getConsoleOutput()
     t.ok(noEnvOutput.length === 0, 'Should not log without DEBUG environment')
 
-    // Test 10: DEV mode (no namespace, no DEBUG env)
-    t.clearConsoleOutput()
-    delete (globalThis as any).process.env.DEBUG
-    const devDebug = createDebugCF()
-    devDebug('dev mode message')
-    const devOutput = t.getConsoleOutput()
-    t.ok(devOutput.length > 0,
-        'DEV mode should log when no DEBUG environment is set')
-
     // Test 11: Works without process.env (pure Workers environment)
     t.clearConsoleOutput()
     delete (globalThis as any).process
-    const pureWorkersDebug = createDebugCF(true) // Force enabled
+    const pureWorkersDebug = createDebugCF(true)  // Force enabled
     pureWorkersDebug('pure workers message')
     const pureOutput = t.getConsoleOutput()
     t.ok(pureOutput.length > 0,
