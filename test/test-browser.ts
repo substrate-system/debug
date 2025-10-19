@@ -47,7 +47,6 @@ test('Browser debug basic functionality test', t => {
 
     const debug1 = createDebug('test')
     const debug2 = createDebug('other')
-    const debug3 = createDebug()
     const debug4 = createDebug(true)
     const debug5 = createDebug(false)
 
@@ -55,7 +54,6 @@ test('Browser debug basic functionality test', t => {
     try {
         debug1('test message 1')
         debug2('test message 2')
-        debug3('test message 3')
         debug4('test message 4')
         debug5('test message 5')
         t.ok(true, 'All debug calls completed without throwing')
@@ -154,19 +152,6 @@ test('Browser debug exclusion patterns', t => {
     }
 
     mockLocalStorage.clear()
-})
-
-test('Browser debug with no localStorage DEBUG (DEV mode)', t => {
-    mockLocalStorage.clear()
-
-    const debug = createDebug()
-
-    try {
-        debug('dev mode message')
-        t.ok(true, 'DEV mode debug call completed without throwing')
-    } catch (err) {
-        t.fail(`DEV mode debug call should not throw: ${err}`)
-    }
 })
 
 test('Browser debug forced enabled and disabled', t => {

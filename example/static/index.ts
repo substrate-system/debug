@@ -1,7 +1,5 @@
 import Debug from '../../src/browser/index.js'
 
-const debug = Debug()
-
 const debugTwo = Debug('aaa')
 
 debugTwo('debugging aaa')
@@ -15,12 +13,6 @@ debugFalse('should not see this')
 
 // @ts-expect-error dev
 window.debug = debug
-
-debug('hello')
-
-setTimeout(() => {
-    debug('hello again, same color')
-}, 1000)
 
 debugTwo('...aaa again')
 

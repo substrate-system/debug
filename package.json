@@ -78,7 +78,7 @@
     "supports-color": "^10.0.0"
   },
   "devDependencies": {
-    "@substrate-system/tapout": "^0.0.24",
+    "@substrate-system/tapout": "^0.0.28",
     "@substrate-system/tapzero": "^0.10.15",
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",

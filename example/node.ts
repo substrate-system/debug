@@ -1,6 +1,6 @@
 import { createDebug } from '../src/node/index.js'
 
-const debug = createDebug()
+const debug = createDebug(true)
 
 debug('hello')
 
