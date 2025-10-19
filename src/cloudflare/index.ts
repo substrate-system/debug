@@ -146,7 +146,7 @@ function formatArgs ({ diff, namespace }:{
     return args
 }
 
-function createDebug (namespace?:string, env?:Record<string, string>):Debugger;
+function createDebug (namespace:string, env?:Record<string, string>):Debugger;
 function createDebug (enabled:boolean):Debugger;
 function createDebug (
     namespaceOrEnabled?:string|boolean,

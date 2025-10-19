@@ -150,7 +150,7 @@ let randomNamespace:string = ''
  * @return {Function}
  */
 export function createDebug (
-    namespace?:string|boolean|null,
+    namespace:string|boolean|null,
     env?:Record<string, any>
 ):Debugger {
     // eslint-disable-next-line
