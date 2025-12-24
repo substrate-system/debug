@@ -81,6 +81,43 @@ debug('hello logs')
 
 ### Factor out of production
 
+Two options: either dynamic imports or use your bundler to swap files.
+
+#### Esbuild Bundler
+
+```sh
+esbuild src/app.js --bundle --alias:@substrate-system/debug=@substrate-system/debug/noop > ./dist/app.js
+```
+
+#### Vite Bundler
+
+Use the `resolve.alias` configuration. Pass a function that received `mode` as
+an argument.
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite';
+import path from 'node:path';
+
+export default defineConfig(({ mode }) => {
+  const isProd = mode === 'production';
+
+  return {
+    resolve: {
+      alias: {
+        // When in production, swap 'my-debug-module' for a local no-op file
+        '@substrate-system/debug': (isProd ?
+          '@substrate-system/debug/noop' :
+          '@substrate-system/debug'),
+      },
+    },
+  };
+});
+```
+
+
+#### Dynamic Imports
+
 Use [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
 to keep this entirely out of production code, so your bundle is smaller.
 

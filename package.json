@@ -70,7 +70,7 @@
     "exmaple:node": "npx esbuild --platform=node --bundle ./example/node.ts | DEBUG=\"hello:*\" node",
     "build-example": "vite build",
     "build-docs": "typedoc ./src/index.ts ./src/browser/index.ts ./node.ts ./src/cloudflare/index.ts",
-    "toc": "markdown-toc --maxdepth 3 -i README.md",
+    "toc": "markdown-toc --maxdepth 4 -i README.md",
     "start": "vite --mode=staging",
     "start:ls": "vite --config vite-ls.config.js example-ls",
     "preversion": "npm run lint",
