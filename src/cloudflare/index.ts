@@ -16,13 +16,13 @@ const log = console.log || (() => {})
 
 /**
  * Maximally distinct colors selected for perceptual distance in CIELAB space.
- * Any two colors in this palette are visually distinguishable.
+ * All colors have sufficient contrast for legibility on white backgrounds.
  */
 const colors = [
-    '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231',
-    '#911eb4', '#42d4f4', '#f032e6', '#bfef45', '#fabed4',
-    '#469990', '#dcbeff', '#9a6324', '#fffac8', '#800000',
-    '#aaffc3', '#808000', '#ffd8b1', '#000075', '#a9a9a9',
+    '#e6194b', '#3cb44b', '#b8860b', '#4363d8', '#f58231',
+    '#911eb4', '#0097a7', '#f032e6', '#558b2f', '#c2185b',
+    '#469990', '#7b1fa2', '#9a6324', '#d69c00', '#800000',
+    '#00897b', '#808000', '#d84315', '#000075', '#616161',
 ]
 
 export { createDebug }
@@ -40,6 +40,9 @@ function isEnabled (namespace:string, env?:Record<string, string>):boolean {
         (typeof globalThis !== 'undefined' && (globalThis as any).DEBUG) ||
         (typeof process !== 'undefined' && process.env?.DEBUG)
 
+    // Check for wildcard first - enables all namespaces including DEV
+    if (DEBUG === '*') return true
+
     // If no namespace (DEV mode), check if there's no DEBUG variable
     if (namespace === 'DEV') {
         // We want to log iff there is no DEBUG variable.
@@ -51,9 +54,6 @@ function isEnabled (namespace:string, env?:Record<string, string>):boolean {
 
     // No DEBUG variable set
     if (!DEBUG) return false
-
-    // Check for wildcard
-    if (DEBUG === '*') return true
 
     // Check namespace vs DEBUG env var
     const envVars = createRegexFromEnvVar(DEBUG)

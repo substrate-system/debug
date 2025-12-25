@@ -4,10 +4,8 @@
  * not just a browser with mocked localStorage.
  */
 
-import createDebugCF from '../src/cloudflare/index.js'
-
 // Simulate Cloudflare Workers global environment
-const originalConsole = console
+const originalLog = console.log.bind(console)
 
 // Clear browser-specific globals to simulate Workers environment
 delete (globalThis as any).localStorage
@@ -15,20 +13,23 @@ delete (globalThis as any).document
 delete (globalThis as any).navigator
 delete (globalThis as any).window
 
-// Set up Workers-like environment
-const testConsoleOutput: string[] = []
+// Set up Workers-like environment BEFORE importing the module
+let testConsoleOutput: string[] = []
 console.log = (...args: any[]) => {
     // Capture console output for testing
     const output = args.join(' ')
     testConsoleOutput.push(output)
     // Also log to original console for visibility
-    originalConsole.log(...args)
+    originalLog(...args)
 }
 
 // Mock process for testing with environment variables
 ;(globalThis as any).process = {
     env: {}
 }
+
+// Dynamic import AFTER setting up console mock
+const { default: createDebugCF } = await import('../src/cloudflare/index.js')
 
 // Simple test framework since we can't use tapzero in Workers
 class CloudflareTest {
@@ -66,12 +67,12 @@ class CloudflareTest {
     }
 
     clearConsoleOutput () {
-        testConsoleOutput.length = 0
-        ;(globalThis as any).__TEST_CONSOLE_OUTPUT = []
+        testConsoleOutput = []
     }
 
     getConsoleOutput (): string[] {
-        return (globalThis as any).__TEST_CONSOLE_OUTPUT || []
+        // Return a copy to avoid pollution from subsequent console.log calls
+        return [...testConsoleOutput]
     }
 }
 
