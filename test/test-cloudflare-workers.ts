@@ -1,3 +1,5 @@
+import createDebugCF from '../src/cloudflare/index.js'
+
 /**
  * Test for Cloudflare Workers environment.
  * This test should run in an actual Workers-like environment,
@@ -29,7 +31,7 @@ console.log = (...args: any[]) => {
 }
 
 // Dynamic import AFTER setting up console mock
-const { default: createDebugCF } = await import('../src/cloudflare/index.js')
+// const { default: createDebugCF } = await import('../src/cloudflare/index.js')
 
 // Simple test framework since we can't use tapzero in Workers
 class CloudflareTest {
