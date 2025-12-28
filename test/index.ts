@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join, resolve } from 'node:path'
 import { writeFileSync, unlinkSync } from 'node:fs'
 import './test-extend.js'
+import './test-noop.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
