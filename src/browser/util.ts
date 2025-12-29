@@ -15,8 +15,8 @@ export const colors = [
     '#808000',  // olive
     '#000075',  // navy
     '#469990',  // teal
-    '#e6beff',  // lavender
-    '#aaffc3',  // mint
+    '#9d00ffff',  // lavender
+    '#09ff53ff',  // mint
     '#ffd700',  // gold
     '#800000',  // maroon
     '#008080',  // dark teal
