@@ -5,22 +5,22 @@
 export const colors = [
     '#e6194b',  // red
     '#3cb44b',  // green
-    '#1565c0',  // strong blue (was dark goldenrod)
+    '#1565c0',  // strong blue
     '#4363d8',  // blue
     '#f58231',  // orange
     '#911eb4',  // purple
-    '#0097a7',  // dark cyan (was cyan)
+    '#0097a7',  // dark cyan
     '#f032e6',  // magenta
-    '#558b2f',  // dark lime (was lime)
-    '#c2185b',  // deep pink (was pink)
+    '#558b2f',  // dark lime
+    '#c2185b',  // deep pink
     '#469990',  // teal
-    '#7b1fa2',  // deep purple (was lavender)
-    '#6a1b9a',  // violet (was brown)
-    '#00838f',  // dark teal (was dark amber)
-    '#800000',  // maroon
-    '#00897b',  // dark mint (was mint)
-    '#5d4037',  // brown (was olive)
-    '#d84315',  // deep orange (was apricot)
-    '#000075',  // navy
-    '#37474f',  // blue grey (was dark grey)
+    '#7b1fa2',  // deep purple
+    '#ab47bc',  // medium purple (was violet)
+    '#00838f',  // dark teal
+    '#d32f2f',  // medium red (was maroon)
+    '#00897b',  // dark mint
+    '#8d6e63',  // medium brown (was brown)
+    '#d84315',  // deep orange
+    '#1976d2',  // medium blue (was navy)
+    '#607d8b',  // medium blue grey (was dark grey)
 ]
