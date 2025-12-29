@@ -9,10 +9,10 @@ export const colors = [
     '#0000ff',  // pure blue
     '#f58231',  // orange
     '#911eb4',  // purple
-    '#42d4f4',  // cyan
+    '#0094b5ff',  // cyan
     '#f032e6',  // magenta
     '#9a6324',  // brown
-    '#808000',  // olive
+    '#848400ff',  // olive
     '#000075',  // navy
     '#469990',  // teal
     '#9d00ffff',  // lavender
