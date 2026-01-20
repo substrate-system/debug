@@ -9,11 +9,11 @@ export const colors = [
     '#0000ff',  // pure blue
     '#911eb4',  // purple
     'rgb(0, 208, 255)',  // cyan
-    '#f032e6',  // magenta
+    '#da00cf',  // magenta
     '#fe8d0b',  // brown
-    'rgb(255, 255, 0)',  // olive
+    'rgb(214, 172, 0)',  // olive
     '#0000ff',  // navy
-    '#00cfb6',  // teal
+    '#00c2ab',  // teal
     '#9d00ffff',  // lavender
     'rgb(0, 171, 51)',  // mint
     'rgb(197, 167, 0)',  // gold
