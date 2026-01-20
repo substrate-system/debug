@@ -5,19 +5,17 @@
  */
 export const colors = [
     '#e6194b',  // red
-    '#3cb44b',  // green
+    '#00c01a',  // green
     '#0000ff',  // pure blue
-    '#f58231',  // orange
     '#911eb4',  // purple
-    '#0094b5ff',  // cyan
+    'rgb(0, 208, 255)',  // cyan
     '#f032e6',  // magenta
-    '#9a6324',  // brown
-    '#848400ff',  // olive
-    '#000075',  // navy
-    '#469990',  // teal
+    '#fe8d0b',  // brown
+    'rgb(255, 255, 0)',  // olive
+    '#0000ff',  // navy
+    '#00cfb6',  // teal
     '#9d00ffff',  // lavender
     '#09ff53ff',  // mint
-    '#d0b100ff',  // gold
-    '#800000',  // maroon
+    'rgb(197, 167, 0)',  // gold
     '#008080',  // dark teal
 ]
