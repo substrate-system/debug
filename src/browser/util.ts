@@ -15,7 +15,7 @@ export const colors = [
     '#0000ff',  // navy
     '#00cfb6',  // teal
     '#9d00ffff',  // lavender
-    '#09ff53ff',  // mint
+    'rgb(0, 171, 51)',  // mint
     'rgb(197, 167, 0)',  // gold
     '#008080',  // dark teal
 ]
