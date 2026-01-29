@@ -98,7 +98,7 @@ esbuild src/app.js --bundle --alias:@substrate-system/debug=@substrate-system/de
 
 #### Vite Bundler
 
-Use the `resolve.alias` configuration. Pass a function that received `mode` as
+Use the `resolve.alias` configuration. Pass a function that receives `mode` as
 an argument.
 
 ```js
