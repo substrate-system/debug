@@ -6,12 +6,11 @@
 export const colors = [
     '#cc0000',  // red
     '#0044cc',  // blue
-    '#118811',  // green
-    '#9922cc',  // purple
+    '#008a00',  // green
+    '#9900db',  // purple
     '#dd7700',  // orange
     '#cc0088',  // pink
-    '#778800',  // olive
-    '#774422',  // brown
-    '#007777',  // teal
-    '#555555',  // grey
+    '#8a9f00',  // olive
+    '#873600',  // brown
+    '#bc007d',  // magenta
 ]
