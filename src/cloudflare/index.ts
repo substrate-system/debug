@@ -15,14 +15,12 @@ export * from '../index.js'
 const log = console.log || (() => {})
 
 /**
- * Maximally distinct colors based on Kelly's colors of maximum contrast.
- * Every pair is perceptually distant — no similar hues, no duplicates.
+ * Maximally distinct colors for debug namespaces.
+ * Every pair has high perceptual distance — no similar hues nearby.
  */
 const colors = [
-    '#e6194b', '#4363d8', '#3cb44b', '#911eb4', '#f58231',
-    '#42d4f4', '#f032e6', '#bfef45', '#469990', '#9a6324',
-    '#800000', '#000075', '#808000', '#e6beff', '#fabebe',
-    '#aaffc3', '#ffd8b1', '#fffac8', '#a9a9a9', '#1e8449',
+    '#cc0000', '#0044cc', '#118811', '#9922cc', '#dd7700',
+    '#cc0088', '#778800', '#774422', '#007777', '#555555',
 ]
 
 export { createDebug }

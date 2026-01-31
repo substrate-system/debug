@@ -20,30 +20,20 @@ export * from '../index.js'
 
 /**
  * Maximally distinct ANSI 256 color codes.
- * Selected for perceptual distance - any two colors are visually distinguishable.
+ * Selected for perceptual distance - every pair is visually distinguishable.
  */
 const colors:number[] = (supportsColor &&
     // @ts-expect-error ???
     (supportsColor.stderr || supportsColor).level >= 2) ? ([
         196,  // red
         46,   // green
-        226,  // yellow
         21,   // blue
-        208,  // orange
         129,  // purple
-        51,   // cyan
+        208,  // orange
         201,  // magenta
-        118,  // lime
-        218,  // pink
-        30,   // teal
-        183,  // lavender
-        130,  // brown
-        229,  // beige
-        88,   // maroon
-        121,  // mint
         142,  // olive
-        223,  // apricot
-        18,   // navy
+        130,  // brown
+        30,   // teal
         245,  // grey
     ]) :
     ([1, 2, 3, 4, 5, 6])

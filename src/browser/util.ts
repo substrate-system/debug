@@ -1,21 +1,17 @@
 /**
- * Maximally distinct colors based on Kelly's colors of maximum contrast.
- * Every pair is perceptually distant — no similar hues, no duplicates.
+ * Maximally distinct colors for debug namespaces.
+ * Every pair has high perceptual distance — no similar hues nearby.
  * All have sufficient contrast for legibility on white backgrounds.
  */
 export const colors = [
-    '#e6194b',  // red
-    '#4363d8',  // blue
-    '#3cb44b',  // green
-    '#911eb4',  // purple
-    '#f58231',  // orange
-    '#42d4f4',  // cyan
-    '#f032e6',  // magenta
-    '#bfef45',  // lime
-    '#469990',  // teal
-    '#9a6324',  // brown
-    '#800000',  // maroon
-    '#000075',  // navy
-    '#808000',  // olive
-    '#e6beff',  // lavender
+    '#cc0000',  // red
+    '#0044cc',  // blue
+    '#118811',  // green
+    '#9922cc',  // purple
+    '#dd7700',  // orange
+    '#cc0088',  // pink
+    '#778800',  // olive
+    '#774422',  // brown
+    '#007777',  // teal
+    '#555555',  // grey
 ]
