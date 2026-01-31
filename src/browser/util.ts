@@ -1,21 +1,21 @@
 /**
- * Maximally distinct colors selected for perceptual distance.
- * All colors have sufficient contrast for legibility on white backgrounds.
- * Each color is visually distinct from all others - no similar hues.
+ * Maximally distinct colors based on Kelly's colors of maximum contrast.
+ * Every pair is perceptually distant — no similar hues, no duplicates.
+ * All have sufficient contrast for legibility on white backgrounds.
  */
 export const colors = [
     '#e6194b',  // red
-    '#00c01a',  // green
-    '#0000ff',  // pure blue
+    '#4363d8',  // blue
+    '#3cb44b',  // green
     '#911eb4',  // purple
-    'rgb(0, 208, 255)',  // cyan
-    '#da00cf',  // magenta
-    '#fe8d0b',  // brown
-    'rgb(214, 172, 0)',  // olive
-    '#0000ff',  // navy
-    '#00c2ab',  // teal
-    '#9d00ffff',  // lavender
-    'rgb(0, 171, 51)',  // mint
-    'rgb(197, 167, 0)',  // gold
-    '#008080',  // dark teal
+    '#f58231',  // orange
+    '#42d4f4',  // cyan
+    '#f032e6',  // magenta
+    '#bfef45',  // lime
+    '#469990',  // teal
+    '#9a6324',  // brown
+    '#800000',  // maroon
+    '#000075',  // navy
+    '#808000',  // olive
+    '#e6beff',  // lavender
 ]

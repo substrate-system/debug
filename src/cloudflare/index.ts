@@ -15,14 +15,14 @@ export * from '../index.js'
 const log = console.log || (() => {})
 
 /**
- * Maximally distinct colors selected for perceptual distance in CIELAB space.
- * All colors have sufficient contrast for legibility on white backgrounds.
+ * Maximally distinct colors based on Kelly's colors of maximum contrast.
+ * Every pair is perceptually distant — no similar hues, no duplicates.
  */
 const colors = [
-    '#e6194b', '#3cb44b', '#b8860b', '#4363d8', '#f58231',
-    '#911eb4', '#0097a7', '#f032e6', '#558b2f', '#c2185b',
-    '#469990', '#7b1fa2', '#9a6324', '#d69c00', '#d32f2f',
-    '#00897b', '#808000', '#d84315', '#1976d2', '#607d8b',
+    '#e6194b', '#4363d8', '#3cb44b', '#911eb4', '#f58231',
+    '#42d4f4', '#f032e6', '#bfef45', '#469990', '#9a6324',
+    '#800000', '#000075', '#808000', '#e6beff', '#fabebe',
+    '#aaffc3', '#ffd8b1', '#fffac8', '#a9a9a9', '#1e8449',
 ]
 
 export { createDebug }
